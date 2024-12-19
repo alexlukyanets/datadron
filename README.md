@@ -1,4 +1,4 @@
-# DATADRONE: An Asynchronous Web Scraping Framework
+# DATAdRONE: An Asynchronous Web Scraping Framework
 
 ## Project Plan
 
