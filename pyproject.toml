@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 httpx = "^0.28.1"
+pydantic-settings = "^2.7.0"
+loguru = "^0.7.3"
 
 
 [build-system]
