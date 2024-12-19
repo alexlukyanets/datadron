@@ -1,5 +1,4 @@
 from asyncio import Semaphore
-from collections import defaultdict
 
 from httpx import AsyncClient
 
