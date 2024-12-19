@@ -4,7 +4,7 @@ from loguru import logger
 
 from config import settings
 
-from core.enums import LogLevels
+from core.enums import Environments, LogLevels
 
 logger.remove()
 
