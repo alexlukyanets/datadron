@@ -2,7 +2,7 @@
 name = "datadron"
 version = "0.1.0"
 description = "HTTPX wraped tool for parsing"
-authors = ["Your Name <you@example.com>"]
+authors = ["alexlukyanets"]
 readme = "README.md"
 
 [tool.poetry.dependencies]

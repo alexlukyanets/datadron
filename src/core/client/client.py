@@ -17,9 +17,19 @@ class DataDroneClient:
     ):
         self.semaphore: Semaphore = Semaphore(value=async_tasks)
         self.retry_times: int = retry_times
-        self.status_counter: dict[int, int] = defaultdict(int)
         self.headers: dict[str, str] | None = headers
         self.random_user_agent: bool = False
 
     async def request(self, method: str, url: str, **kwargs):
         return await self.client.request(method, url, **kwargs)
+
+    async def statistics(self):
+        # status code counter
+        # retry times counter
+        # request times counter
+        # request time counter
+        # request size counter
+        # response size counter
+        # connection time counter
+        # response time counter
+        return
