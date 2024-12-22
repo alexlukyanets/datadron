@@ -1,54 +1,51 @@
 # DATAdRONE: An Asynchronous Web Scraping Framework
 
-## Project Plan
-
 To create a powerful asynchronous web scraping framework using `httpx`, follow the steps below:
 
-1. [ ] **Set Up Project Structure**
-    - Organize directories (e.g., `async_scraper/`, `tests/`, `examples/`).
-    - Create essential files like `README.md`, `.gitignore`, and `LICENSE`.
+> **High-performance asynchronous scraping framework powered by [`httpx`](https://www.python-httpx.org/).**
 
-2. [ ] **Configure Dependency Management**
-    - Add dependencies such as `httpx`, `asyncio`, `BeautifulSoup` or `lxml` for parsing.
-    - Set up development dependencies like `pytest` for testing and `black` for formatting.
+## Project Plan
 
-3. [ ] **Implement the Core Request Handler**
-    - Utilize `httpx.AsyncClient` for making asynchronous HTTP requests.
-    - Handle session management, retries, and error handling.
+1. [x] **Set Up Project Structure**  
+   *Basic scaffolding and initial code setup.*
 
-4. [ ] **Develop the URL Scheduler**
-    - Create a scheduler to manage and prioritize URLs to be scraped.
-    - Implement features like deduplication and rate limiting.
+2. [x] **Implement HTTPX Async Client**  
+   *Core client with retries, statistics, and logging.*
 
-5. [ ] **Build the Parser Module**
-    - Integrate parsing libraries to extract data from HTML/XML.
-    - Allow users to define custom parsing rules or selectors.
+3. [ ] **Handle Browser Interactions**  
+   *Planned: Integrate headless browser automation (e.g., Playwright).*
 
-6. [ ] **Create Middleware Support**
-    - Develop a middleware system to allow customization of requests and responses.
-    - Enable features like request throttling, proxies, and user-agent rotation.
+4. [ ] **Implement Parser with XPATH**  
+   *Planned: Add advanced parsing features for complex DOM structures.*
 
-7. [ ] **Implement Data Pipeline**
-    - Design a pipeline to process and store scraped data.
-    - Support multiple storage backends (e.g., JSON, CSV, databases).
+5. [ ] **Create Middleware Support**  
+   *Planned: Add middlewares for request/response transformations.*
 
-8. [ ] **Develop Command-Line Interface (CLI)**
-    - Create a CLI for users to run scraping tasks.
-    - Include options for configuring spiders, output formats, and settings.
+6. [ ] **Develop Command-Line Interface (CLI)**  
+   *Planned: Provide a user-friendly way to run scrapers and manage tasks.*
 
-9. [ ] **Write Comprehensive Documentation and Tests**
-    - Document all modules, classes, and functions with usage examples.
-    - Write unit and integration tests to ensure framework reliability.
-    - Set up Continuous Integration (CI) for automated testing.
+7. [ ] **Write Comprehensive Documentation and Tests**  
+   *Planned: Improve docs, examples, and test coverage.*
 
-## Getting Started
+---
 
-Follow the checklist above to build the AsyncScraper framework step by step. Each task will help you develop a robust and flexible web scraping tool leveraging the power of asynchronous programming with `httpx`.
+## Possible Future Features
+
+- **Distributed Task Scheduling**: Integrate task queues (e.g., Celery or RQ) for large-scale scraping.
+- **Session Management**: Automatic session pooling, caching, and cookie handling.
+- **Pluggable Storage**: Flexible storage backends for scraped data.
+- **Dynamic Proxy Support**: Auto-rotation of proxies to avoid IP bans.
+- **Hook System**: Register pre- and post-request hooks for customizing requests on-the-fly.
+- **Plugin Architecture**: Enable third-party extensions and specialized scraping components.
+
+---
 
 ## Contributing
 
-Contributions are welcome! Please follow the project plan and ensure that all new features are well-documented and tested.
+Contributions in the form of bug reports, feature requests, and pull requests are warmly welcomed.
+
+---
 
 ## License
 
-This project is licensed under the MIT License.
+This project is open source and available under the [MIT License](./LICENSE).

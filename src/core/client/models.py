@@ -7,6 +7,22 @@ from httpx._types import (
     AuthTypes, CertTypes, CookieTypes, HeaderTypes, ProxyTypes, QueryParamTypes, RequestContent, RequestData,
     RequestExtensions, RequestFiles, TimeoutTypes
 )
+from pydantic import BaseModel
+
+
+class OutputStatistics(BaseModel):
+    error_count: dict[Exception, int] | None = None
+    request_count: dict[str, int] | None = None
+    status_code_count: dict[int, int] | None = None
+    response_time: list[float] | None = None
+    retried_count: int
+    request_size_bytes: int
+    request_size_mb: float
+    response_size: int
+    total_time: float
+    total_time_seconds: float
+    total_time_minutes: float
+    total_time_hours: float
 
 
 class AsyncClientKwargs(TypedDict, total=False):
@@ -31,7 +47,7 @@ class AsyncClientKwargs(TypedDict, total=False):
     default_encoding: str | Callable[[bytes], str]
 
 
-class GetRequestKwargs(TypedDict, total=False):
+class GetReqKwargs(TypedDict, total=False):
     url: URL | str
     params: QueryParamTypes | None
     headers: HeaderTypes | None
@@ -42,7 +58,7 @@ class GetRequestKwargs(TypedDict, total=False):
     extensions: RequestExtensions | None
 
 
-class PostRequestKwargs(TypedDict, total=False):
+class PostReqKwargs(TypedDict, total=False):
     url: URL | str
     content: RequestContent | None
     data: RequestData | None
