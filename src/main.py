@@ -1,8 +1,10 @@
 from asyncio import Runner
 
+from tests.client_test import drone_test
+
 
 async def main():
-    ...
+    await drone_test()
 
 
 if __name__ == '__main__':

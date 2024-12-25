@@ -10,8 +10,9 @@ from httpx._types import (
 from pydantic import BaseModel
 
 
+# arbitrary_types_allowed
 class OutputStatistics(BaseModel):
-    error_count: dict[Exception, int] | None = None
+    error_count: dict[str, int] | None = None
     request_count: dict[str, int] | None = None
     status_code_count: dict[int, int] | None = None
     response_time: list[float] | None = None
@@ -20,6 +21,7 @@ class OutputStatistics(BaseModel):
     request_size_mb: float
     response_size: int
     total_time: float
+    total_time_microseconds: float
     total_time_seconds: float
     total_time_minutes: float
     total_time_hours: float
