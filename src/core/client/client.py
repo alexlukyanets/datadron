@@ -1,12 +1,13 @@
-from http import HTTPMethod
+from typing import Any
 from time import monotonic
+from http import HTTPMethod
 from asyncio import Semaphore
 from collections import defaultdict
-from typing import Any
 
 from httpx import AsyncClient, Response
 
 from logger import logger
+
 from core.client import consts
 from core.client.models import OutputStatistics
 
