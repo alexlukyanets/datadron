@@ -14,13 +14,13 @@ from core.client.models import AsyncClientKwargs, GetReqKwargs, OutputStatistics
 
 class DataDroneClient:
     def __init__(
-            self,
-            *,
-            async_tasks: int = consts.ASYNC_TASKS,
-            retry_times: int = consts.RETRY_TIMES,
-            headers: dict[str, str] | None = None,
-            logger_debug: bool = False,
-            **kwargs: Unpack[AsyncClientKwargs],
+        self,
+        *,
+        async_tasks: int = consts.ASYNC_TASKS,
+        retry_times: int = consts.RETRY_TIMES,
+        headers: dict[str, str] | None = None,
+        logger_debug: bool = False,
+        **kwargs: Unpack[AsyncClientKwargs],
     ):
         self.start_time: float = monotonic()
         self.client: AsyncClient = AsyncClient(**kwargs)
@@ -95,7 +95,7 @@ class DataDroneClient:
         if req_content and hasattr(req_content, 'content'):
             self.request_size += len(req_content.content)
 
-    async def statistics(self) -> str:
+    async def statistics(self) -> None:
         total_time: float = monotonic() - self.start_time
         total_time_microseconds: float = total_time * 1_000_000  # Convert seconds to microseconds
 
@@ -115,51 +115,61 @@ class DataDroneClient:
             total_time_hours=total_time / consts.HOUR
         )
 
-        # Initialize the stats_lines list with static lines
         stats_lines = [
-            '📊 **DataDroneClient Statistics** 📈',
-            f'⏱️ **Total Time**: {statistics.total_time_seconds:.2f} seconds '
-            f'({statistics.total_time_minutes:.2f} minutes, {statistics.total_time_hours:.2f} hours, '
-            f'{statistics.total_time_microseconds:.2f} μs)',
-            f'📬 **Total Requests**: {sum(statistics.request_count.values())}',
+            '\n\n📊 <bold><green>**DataDroneClient Statistics**</green></bold> 📈',
+            f'⏱️ **Total Time**: <cyan>{statistics.total_time_seconds:.2f} seconds</cyan> '
+            f'(<cyan>{statistics.total_time_minutes:.2f} minutes</cyan>, '
+            f'<cyan>{statistics.total_time_hours:.2f} hours</cyan>, '
+            f'<cyan>{statistics.total_time_microseconds:.2f} μs</cyan>)',
+            f'📬 **Total Requests**: <bold>{sum(statistics.request_count.values())}</bold>',
             '\n🔍 **Request Counts by HTTP Method:**'
         ]
 
-        # Add Request Counts by HTTP Method
         for method, count in statistics.request_count.items():
-            stats_lines.append(f'  - **{method}**: {count}')
+            stats_lines.append(f'  - **<blue>{method.upper()}</blue>**: <bold>{count}</bold>')
 
-        # Add Status Codes
         stats_lines.extend([
             '',
-            '🟢 **Status Codes:**'
+            '🟢 **Status Codes:**',
+            '| <bold>Status Code</bold> | <bold>Description</bold>         | <bold>Count</bold> |',
+            '|------------------------|---------------------------------|-------|'
         ])
         for code, count in sorted(statistics.status_code_count.items()):
-            status = '✅' if 200 <= code < 300 else '⚠️' if 400 <= code < 500 else '❌'
-            stats_lines.append(f'  - {code} {status}: {count}')
+            if 200 <= code < 300:
+                status = '<green>✅ Success</green>'
+            elif 400 <= code < 500:
+                status = '<yellow>⚠️ Client Error</yellow>'
+            elif 500 <= code < 600:
+                status = '<red>❌ Server Error</red>'
+            else:
+                status = '<blue>🔵 Other</blue>'
+            stats_lines.append(f'| {code} | {status} | <bold>{count}</bold> |')
 
-        # Add Error Counts
         if statistics.error_count:
             stats_lines.extend([
                 '',
-                '🐛 **Errors:**'
+                '🐛 **Errors:**',
+                '| <bold>Error Type</bold>           | <bold>Count</bold> |',
+                '|----------------------------------|-------|'
             ])
             for error, count in statistics.error_count.items():
-                stats_lines.append(f'  - **{error}**: {count}')
+                stats_lines.append(f'| <magenta>{error}</magenta> | <bold>{count}</bold> |')
         else:
-            stats_lines.append('\n🎉 **Errors:** None')
+            stats_lines.append('\n🎉 **Errors:** <green>None</green>')
 
-        # Add Retries
         stats_lines.extend([
             '',
-            f'🔄 **Total Retries**: {statistics.retried_count}',
+            f'🔄 **Total Retries**: <bold>{statistics.retried_count}</bold>',
         ])
 
         stats_lines.extend([
             '',
             '📦 **Data Sizes:**',
-            f'  - **Request Size**: {statistics.request_size_bytes} bytes ({statistics.request_size_mb:.2f} MB)',
-            f'  - **Response Size**: {statistics.response_size} bytes',
+            '| <bold>Data Type</bold>   | <bold>Size (Bytes)</bold> | <bold>Size (MB)</bold> |',
+            '|-----------------------|--------------------------|-----------|',
+            f'| **Request**           | <bold>{statistics.request_size_bytes}</bold> | '
+            f'<bold>{statistics.request_size_mb:.2f}</bold> |',
+            f'| **Response**          | <bold>{statistics.response_size}</bold> | - |',
         ])
 
         if statistics.response_time:
@@ -169,12 +179,15 @@ class DataDroneClient:
             stats_lines.extend([
                 '',
                 '⏰ **Response Time Statistics:**',
-                f'  - **Average**: {avg_response_time:.2f} seconds',
-                f'  - **Max**: {max_response_time:.2f} seconds',
-                f'  - **Min**: {min_response_time:.2f} seconds',
+                '| <bold>Metric</bold> | <bold>Time (Seconds)</bold> |',
+                '|--------------------|---------------------------|',
+                f'| **Average**        | <bold>{avg_response_time:.2f}</bold> |',
+                f'| **Max**            | <bold>{max_response_time:.2f}</bold> |',
+                f'| **Min**            | <bold>{min_response_time:.2f}</bold> |',
             ])
         else:
-            stats_lines.append('\n⏰ **Response Time:** No responses recorded')
+            stats_lines.append('\n⏰ **Response Time:** <yellow>No responses recorded</yellow>')
 
         stats_str = '\n'.join(stats_lines)
-        return stats_str
+
+        logger.info(stats_str)

@@ -10,7 +10,6 @@ from httpx._types import (
 from pydantic import BaseModel
 
 
-# arbitrary_types_allowed
 class OutputStatistics(BaseModel):
     error_count: dict[str, int] | None = None
     request_count: dict[str, int] | None = None
